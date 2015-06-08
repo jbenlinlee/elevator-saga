@@ -10,6 +10,23 @@
 		}
 		
 		function setupFloor(fl) {
+			fl.checkPlan = function() {
+				for (var el = 0; el < elevators.length; ++el) {
+					if (destQueue.length > 0) {
+						var destFloor = el.destinationQueue[0];
+						var newDest = destFloor;
+						if (dest > el.currentFloor() && fl.floorNum() > el.currentFloor() && fl.floorNum() < dest) {
+							newDest = fl.floorNum();
+						} else if (dest < el.currentFloor() && fl.floorNum() < el.currentFloor() && fl.floorNum() > dest) {
+							newDest = fl.floorNum();
+						}
+						
+						el.destinationQueue = [newDest];
+						el.checkDestinationQueue();
+					}
+				}
+			}
+			
 			fl.on("up_button_pressed", function() {
 				fl.requested = true;
 			});
