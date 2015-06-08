@@ -11,13 +11,14 @@
 		
 		function setupFloor(fl) {
 			fl.checkPlan = function() {
-				for (var el = 0; el < elevators.length; ++el) {
-					if (destQueue.length > 0) {
+				for (var i = 0; i < elevators.length; ++i) {
+					var el = elevators[i];
+					if (el.destinationQueue.length > 0) {
 						var destFloor = el.destinationQueue[0];
 						var newDest = destFloor;
-						if (dest > el.currentFloor() && fl.floorNum() > el.currentFloor() && fl.floorNum() < dest) {
+						if (destFloor > el.currentFloor() && fl.floorNum() > el.currentFloor() && fl.floorNum() < destFloor) {
 							newDest = fl.floorNum();
-						} else if (dest < el.currentFloor() && fl.floorNum() < el.currentFloor() && fl.floorNum() > dest) {
+						} else if (destFloor < el.currentFloor() && fl.floorNum() < el.currentFloor() && fl.floorNum() > destFloor) {
 							newDest = fl.floorNum();
 						}
 						
@@ -29,10 +30,12 @@
 			
 			fl.on("up_button_pressed", function() {
 				fl.requested = true;
+				fl.checkPlan();
 			});
 			
 			fl.on("down_button_pressed", function() {
 				fl.requested = true;
+				fl.checkPlan();
 			});
 		}
 		
